@@ -16,15 +16,19 @@ import java.time.LocalDateTime;
  * title, date and time, and a featuring Performer.
  */
 //TODO: add annotation for entity
+@Entity
 public class Concert {
 	
 	//TODO: add annotation for id
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
 
     private LocalDateTime date;
 
   //TODO: add annotation for relationship
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Performer performer;
 
     public Concert(Long id, String title, LocalDateTime date, Performer performer) {
@@ -62,6 +66,9 @@ public class Concert {
         this.title = title;
     }
     //TODO: add the JSONSerialze and JsonDeserialize
+    
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     public LocalDateTime getDate() {
         return date;
     }
